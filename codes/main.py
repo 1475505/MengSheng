@@ -75,7 +75,7 @@ input = "./input.wav"
 Visualization(input)
 print("当前音频的分析结果已生成")
 separate_audio(input, model_path="pretrained-model/xumx_slicq.pth")
-ddsp_audio = transform_audio("./ests/voice.wav", loudness=30, model_path="./pth/note_F1=0.9677_pedal_F1=0.9186.pth")
+ddsp_audio = transform_audio("./ests/voice.wav", loudness=30)
 folder_path = "./ests/"
 
 # 定位满足条件的.wav文件
