@@ -7,6 +7,8 @@ import subprocess
 import torch
 from test_input.work import get_audio_result
 
+import glob
+
 def Visualization(filepath):
     a = read(filepath)
     notes_set = {}  # 从C0到B8
@@ -72,10 +74,18 @@ input = "./input.wav"
 
 Visualization(input)
 print("当前音频的分析结果已生成")
-separate_audio(input)
+separate_audio(input, model_path="pretrained-model/xumx_slicq.pth")
 ddsp_audio = transform_audio("./ests/voice.wav", loudness=30, model_path="./pth/note_F1=0.9677_pedal_F1=0.9186.pth")
-not_voice_part = "./ests/erhu.wav"
-instrument = identify_instrument("./ests/erhu.wav")
+folder_path = "./ests/"
+
+# 定位满足条件的.wav文件
+file_paths = glob.glob(f"{folder_path}/*.wav")
+
+filtered_file_paths = [file_path for file_path in file_paths if not file_path.endswith("vocal.wav")]
+
+# 输出不是人声（伴奏）的.wav文件路径
+not_vocal_wav = filtered_file_paths[0]
+instrument = identify_instrument(not_vocal_wav)
 print("该音频主要乐器是：" + instrument + "！ ")
 trans2midi()
 a = read('in.mid')
